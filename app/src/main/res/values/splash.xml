@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="App.Starting.Theme" parent="Theme.AltaQuizz">
+        <item name="android:windowSplashScreenBackground">#222831</item>
+      <!--  <item name="android:windowSplashScreenAnimatedIcon">@drawable/quiz</item>-->
+    </style>
+
+</resources>
