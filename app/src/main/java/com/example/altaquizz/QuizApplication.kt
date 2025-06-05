@@ -1,8 +1,15 @@
 package com.example.altaquizz
 
 import android.app.*
-import dagger.hilt.android.*
+import com.example.altaquizz.di.modules.*
+import org.koin.core.context.*
 
-@HiltAndroidApp
 class QuizApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            modules(quizModule)
+        }
+
+    }
 }

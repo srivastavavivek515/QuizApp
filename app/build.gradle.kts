@@ -1,8 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
 }
 
 android {
@@ -68,10 +66,12 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    //Dagger Hilt
-    implementation ("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-compiler:2.48")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+    // Koin Core & Android
+    implementation("io.insert-koin:koin-android:3.5.3")
+
+// Koin with Jetpack Compose
+    implementation("io.insert-koin:koin-androidx-compose:3.5.3")
+
 
     implementation ("androidx.navigation:navigation-compose:2.9.0")
 

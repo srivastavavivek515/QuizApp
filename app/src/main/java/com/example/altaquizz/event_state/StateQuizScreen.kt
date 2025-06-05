@@ -1,4 +1,4 @@
-package com.example.altaquizz.quiz
+package com.example.altaquizz.event_state
 
 import com.example.altaquizz.data.*
 

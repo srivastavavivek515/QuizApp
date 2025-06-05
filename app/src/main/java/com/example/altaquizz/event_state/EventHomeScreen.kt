@@ -1,4 +1,4 @@
-package com.example.altaquizz.quiz
+package com.example.altaquizz.event_state
 
 sealed class EventHomeScreen {
     data class SetNoOfQuestion(val data:String): EventHomeScreen()

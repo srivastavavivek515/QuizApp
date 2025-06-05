@@ -1,19 +1,20 @@
 package com.example.altaquizz.navigation
 
 import androidx.compose.runtime.*
-import androidx.hilt.navigation.compose.*
 import androidx.navigation.*
 import androidx.navigation.compose.*
+import com.example.altaquizz.di.component.*
 import com.example.altaquizz.screens.*
 import com.example.altaquizz.viewmodel.*
 
 @Composable
 fun setUpNavGraph() {
    val navHostController =  rememberNavController()
+    val component = QuizComponent()
 
     NavHost(navController = navHostController, startDestination = Routes.HomeScreen.route){
         composable(route = Routes.HomeScreen.route) {
-            val viewModel: HomeViewModel = hiltViewModel()
+            val viewModel: HomeViewModel = component.homeViewModel
             val state by viewModel.homeState.collectAsState()
             HomeScreen(state, navController = navHostController,viewModel::event)
         }
@@ -38,7 +39,7 @@ fun setUpNavGraph() {
             val category = it.arguments?.getString(ARG_KEY_CATEGORY)
             val type = it.arguments?.getString(ARG_KEY_TYPE)
             val difficulty = it.arguments?.getString(ARG_KEY_DIFFICULTY)
-            val viewModel: QuizViewModel = hiltViewModel()
+            val viewModel: QuizViewModel = component.quizViewModel
             val state by viewModel.quizList.collectAsState()
             QuizScreen(navHostController,noOfQuiz = no, category = category!!, quizDifficulty = difficulty!!,type = type!!, state = state,viewModel::onEvent)
 

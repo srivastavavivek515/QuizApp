@@ -13,14 +13,13 @@ import androidx.compose.ui.res.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.*
-import androidx.hilt.navigation.compose.*
 import androidx.navigation.*
 import androidx.navigation.compose.*
 import com.example.altaquizz.R
 import com.example.altaquizz.components.*
 import com.example.altaquizz.constants.*
+import com.example.altaquizz.event_state.*
 import com.example.altaquizz.navigation.*
-import com.example.altaquizz.quiz.*
 import com.example.altaquizz.viewmodel.*
 
 /*

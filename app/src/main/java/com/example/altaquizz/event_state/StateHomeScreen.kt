@@ -1,4 +1,4 @@
-package com.example.altaquizz.quiz
+package com.example.altaquizz.event_state
 
 data class StateHomeScreen(
     val noOfQuestion:Int = 10,

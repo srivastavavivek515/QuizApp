@@ -19,7 +19,7 @@ import androidx.navigation.*
 import com.example.altaquizz.R
 import com.example.altaquizz.components.*
 import com.example.altaquizz.constants.*
-import com.example.altaquizz.quiz.*
+import com.example.altaquizz.event_state.*
 import kotlinx.coroutines.*
 
 @Composable

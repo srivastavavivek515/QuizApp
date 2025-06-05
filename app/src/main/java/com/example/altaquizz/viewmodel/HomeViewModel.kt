@@ -1,7 +1,7 @@
 package com.example.altaquizz.viewmodel
 
 import androidx.lifecycle.*
-import com.example.altaquizz.quiz.*
+import com.example.altaquizz.event_state.*
 import kotlinx.coroutines.flow.*
 
 class HomeViewModel:ViewModel() {
