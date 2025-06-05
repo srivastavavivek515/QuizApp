@@ -89,7 +89,7 @@ class QuizViewModel @Inject constructor(private val getQuizUseCases: GetQuizUseC
 
     }
 
-    fun getQuizState(quizList:List<Quiz>):List<QuizState>{
+   private fun getQuizState(quizList:List<Quiz>):List<QuizState>{
         val quizStateList = mutableListOf<QuizState>()
         for(quiz in quizList){
                 val shuffledOption = mutableListOf<String>().apply {
