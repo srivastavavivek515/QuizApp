@@ -1,9 +1,10 @@
-package com.example.altaquizz.quiz.event_state
+package com.example.altaquizz.viewmodel
 
 import android.util.*
 import androidx.lifecycle.*
 import com.example.altaquizz.Resources.*
-import com.example.altaquizz.common.data.*
+import com.example.altaquizz.data.*
+import com.example.altaquizz.quiz.*
 import com.example.altaquizz.quizusecases.*
 import dagger.hilt.android.lifecycle.*
 import kotlinx.coroutines.*
@@ -16,12 +17,12 @@ class QuizViewModel @Inject constructor(private val getQuizUseCases: GetQuizUseC
 
     private val _quizList= MutableStateFlow(StateQuizScreen())
     val quizList = _quizList
-    fun onEvent(event:EventQuizScreen){
+    fun onEvent(event: EventQuizScreen){
         when(event){
             is EventQuizScreen.GetQuiz ->{
                 getQuiz(event.no,event.category,event.difficulty,event.type)
             }
-            is EventQuizScreen.SetOptionSelected->{
+            is EventQuizScreen.SetOptionSelected ->{
                 updateQuizStateList(event.quizStateIndex,event.selectedOption)
             }else ->{
 

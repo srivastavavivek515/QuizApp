@@ -1,4 +1,4 @@
-package com.example.altaquizz.common.data
+package com.example.altaquizz.data
 
 data class Quiz(
     val category: String,

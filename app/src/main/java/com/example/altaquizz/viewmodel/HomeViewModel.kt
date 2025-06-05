@@ -1,14 +1,14 @@
-package com.example.altaquizz.home
+package com.example.altaquizz.viewmodel
 
 import androidx.lifecycle.*
-import com.example.altaquizz.home.events_state.*
+import com.example.altaquizz.quiz.*
 import kotlinx.coroutines.flow.*
 
 class HomeViewModel:ViewModel() {
     private val _homeState = MutableStateFlow(StateHomeScreen())
     val homeState = _homeState
 
-    fun event(event:EventHomeScreen){
+    fun event(event: EventHomeScreen){
         when(event){
             is EventHomeScreen.SetNoOfQuestion->{
                 _homeState.value = homeState.value.copy(noOfQuestion = event.data.toInt())

@@ -1,4 +1,4 @@
-package com.example.altaquizz.quiz
+package com.example.altaquizz.screens
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -11,18 +11,19 @@ import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.*
+import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.*
+import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.*
 import androidx.navigation.*
 import com.example.altaquizz.R
+import com.example.altaquizz.components.*
 import com.example.altaquizz.constants.*
-import com.example.altaquizz.home.components.*
-import com.example.altaquizz.main_activity.*
-import com.example.altaquizz.quiz.event_state.*
+import com.example.altaquizz.quiz.*
 import kotlinx.coroutines.*
 
 @Composable
-fun QuizScreen(navHostController: NavHostController,noOfQuiz:Int,category:String,quizDifficulty:String,type:String,state:StateQuizScreen,eventQuizScreen: (EventQuizScreen)->Unit) {
+fun QuizScreen(navHostController: NavHostController, noOfQuiz:Int, category:String, quizDifficulty:String, type:String, state: StateQuizScreen, eventQuizScreen: (EventQuizScreen)->Unit) {
     val type = when(type){
         "Multiple Choice"-> "multiple"
         else ->"boolean"
@@ -36,8 +37,11 @@ fun QuizScreen(navHostController: NavHostController,noOfQuiz:Int,category:String
            navHostController.popBackStack()
        }
 
-        Column(Modifier.padding(10.dp)) {
-            Box (modifier = Modifier.height(20.dp))
+        Column(
+            Modifier
+                .padding(10.dp)
+                .fillMaxSize()) {
+            Spacer (modifier = Modifier.height(20.dp))
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .height(30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -45,20 +49,18 @@ fun QuizScreen(navHostController: NavHostController,noOfQuiz:Int,category:String
                 Text(text = quizDifficulty, style = TextStyle(color = Color.White))
 
             }
-            Box(modifier = Modifier
+            Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(10.dp)
                 .clip(RoundedCornerShape(5.dp))
-                .background(color = Color.White)) {
-
-            }
+                .background(color = Color.White))
             Spacer(modifier = Modifier.height(30.dp))
             val pagerState = rememberPagerState {
                 state.quizStateList.size
             }
              if(isQuizFetched(state = state)){
 
-                 HorizontalPager(state = pagerState) {index->
+                 HorizontalPager(state = pagerState, modifier = Modifier.weight(0.7f)) {index->
                      QuestionScreen(index+1,state.quizStateList[index], onOptionSelected = {
                          selectedIndex-> eventQuizScreen(EventQuizScreen.SetOptionSelected(index,selectedIndex))
                      })
@@ -83,18 +85,16 @@ fun QuizScreen(navHostController: NavHostController,noOfQuiz:Int,category:String
                 }
             }
             val scope = rememberCoroutineScope()
-            Row(horizontalArrangement = Arrangement.SpaceBetween ) {
-
-                if(buttonText[0].isNotEmpty()){
-                    RoundedCornerButton(text = buttonText[0] , textColor = colorResource(id = R.color.black), containerColor = Color.White) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.weight(0.2f) ) {
+              if(buttonText[0].isNotEmpty()){
+                    RoundedCornerButton(modifier = Modifier.weight(0.4f), text = buttonText[0] , textColor = colorResource(id = R.color.black),containerColor = Color.White) {
                         scope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage-1)
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.width(30.dp))
-                RoundedCornerButton(text = buttonText[1], textColor = Color.White,containerColor = colorResource(id = R.color.iconColor)) {
+                Spacer(modifier = Modifier.width(20.dp))
+                RoundedCornerButton(modifier = Modifier.weight(0.4f),text = buttonText[1], textColor = Color.White,containerColor = colorResource(id = R.color.iconColor)) {
                     scope.launch {
                         if(pagerState.currentPage == state.quizStateList.size-1){
                         //TODO::
@@ -158,3 +158,59 @@ fun isQuizFetched(state: StateQuizScreen):Boolean {
         )
 
     }
+
+
+@Composable
+fun QuestionScreen(questionNo:Int, quizState: QuizState, onOptionSelected:(Int)->Unit) {
+    val questionHashMap = hashMapOf(
+        "A" to quizState.shuffledOption[0],
+        "B" to quizState.shuffledOption[1],
+        "C" to quizState.shuffledOption[2],
+        "D" to quizState.shuffledOption[3]
+    )
+
+    Column(Modifier.verticalScroll(rememberScrollState())) {
+
+        Row {
+            Text(text = "$questionNo.", color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(text = quizState.quiz.question, color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        questionHashMap.onEachIndexed { index, (optionName, optionText) ->
+            QuizOption(optionName = optionName, optionText = optionText, selected = quizState.selectedOption == index, onOptionClick = {
+                onOptionSelected(index)
+            }, onUnSelectOption = {
+                onOptionSelected(-1)
+            })
+        }
+    }
+
+}
+
+@Preview
+@Composable
+fun ShimmerQuestionScreen() {
+    val questionHashMap = hashMapOf(
+        "A" to "option 1",
+        "B" to "option 2",
+        "C" to "Option 3",
+        "D" to "Option 4"
+    )
+
+    Column(Modifier.verticalScroll(rememberScrollState())) {
+
+        Row {
+            Box(modifier = Modifier.size(20.dp).shimmerEffect())
+            Spacer(modifier = Modifier.width(10.dp))
+            Box(modifier = Modifier.width(100.dp).height(20.dp).shimmerEffect())
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        questionHashMap.onEachIndexed { index, (optionName, optionText) ->
+            QuizOptionShimmer(optionNo = optionName, options = optionText, selected = false, onOptionClick = { /*TODO*/ }) {
+
+            }
+        }
+    }
+
+}

@@ -1,4 +1,4 @@
-package com.example.altaquizz.common.data
+package com.example.altaquizz.data
 
 data class QuizResponse(
     val response_code: Int,

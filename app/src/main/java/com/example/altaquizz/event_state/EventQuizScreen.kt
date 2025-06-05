@@ -1,4 +1,4 @@
-package com.example.altaquizz.quiz.event_state
+package com.example.altaquizz.quiz
 
 sealed class EventQuizScreen {
     data class GetQuiz(val no:Int,val category:Int,val difficulty:String,val type:String) : EventQuizScreen()

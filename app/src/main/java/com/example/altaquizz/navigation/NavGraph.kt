@@ -4,9 +4,8 @@ import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.*
 import androidx.navigation.*
 import androidx.navigation.compose.*
-import com.example.altaquizz.home.*
-import com.example.altaquizz.quiz.*
-import com.example.altaquizz.quiz.event_state.*
+import com.example.altaquizz.screens.*
+import com.example.altaquizz.viewmodel.*
 
 @Composable
 fun setUpNavGraph() {

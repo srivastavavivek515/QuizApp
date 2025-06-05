@@ -3,7 +3,6 @@ package com.example.altaquizz.constants
 object Constants {
     val noOfQuestion = (1..10).map { it.toString() }
     val category = listOf("Mythology","Sports","History","Geography","Science","Animals","Vehicle","Nature","Entertainment")
-
     val categoryMap = hashMapOf(
         "Mythology" to 20,
         "Sports" to 21,

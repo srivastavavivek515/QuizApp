@@ -1,4 +1,4 @@
-package com.example.altaquizz.home.components
+package com.example.altaquizz.components
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.*
+import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.*
 import com.example.altaquizz.R
 
@@ -90,17 +91,21 @@ fun AdvancedDropdownMenu(headerText: String, menuItems: List<String>,text: Strin
 }
 
 
+
+
+
 @Composable
-fun RoundedCornerButton(text:String,textColor:Color,containerColor: Color,onClick:()->Unit) {
-    Spacer(modifier = Modifier.height(20.dp))
+fun RoundedCornerButton(modifier: Modifier,text:String,textColor:Color,containerColor: Color,onClick:()->Unit) {
+    Spacer(modifier = Modifier
+        .height(20.dp)
+        .background(Color.Red))
     Button(
         onClick = {
                   onClick()
         },
         shape = RoundedCornerShape(40.dp), // Set corner radius
-        modifier = Modifier
-            .width(200.dp)
-            .height(48.dp),
+        modifier = modifier
+            .height(50.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = textColor
@@ -119,12 +124,6 @@ fun Modifier.shimmerEffect() = composed {
     
 }
 
-@Composable
-fun prev(){
-    QuizOption(optionName = "1", optionText = "3", selected = false, onOptionClick = { /*TODO*/ }) {
-        
-    }
-}
 
 @Composable
 fun QuizOption(optionName:String,optionText:String,selected:Boolean,onOptionClick:()->Unit,onUnSelectOption:()->Unit) {
@@ -139,20 +138,18 @@ fun QuizOption(optionName:String,optionText:String,selected:Boolean,onOptionClic
         .fillMaxWidth()
         .padding(vertical = 10.dp)
         .height(60.dp)
-
         .clip(RoundedCornerShape(60.dp))
         .background(
             color = startColor
         )
-        .padding(10.dp), verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.SpaceBetween){
+        .padding(10.dp).clickable {
+            if (selected) onUnSelectOption() else onOptionClick()
+        }, verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.SpaceBetween){
 
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
-            onOptionClick()
-        }) {
-
+        Row(verticalAlignment = Alignment.CenterVertically) {
             if(!selected){
 
-                Text(text = optionName, fontWeight = FontWeight.Bold, fontSize = 30.sp, color = Color.White,modifier = Modifier
+                Text(text = optionName, style = TextStyle(lineHeight = 1.sp),fontWeight = FontWeight.Bold, fontSize = 30.sp, color = Color.White,modifier = Modifier
                     .size(40.dp)
                     .shadow(
                         10.dp, CircleShape, true,
@@ -204,11 +201,12 @@ fun QuizOptionShimmer(optionNo:String,options:String,selected:Boolean,onOptionCl
         .height(60.dp)
 
         .clip(RoundedCornerShape(60.dp))
-        .padding(10.dp).shimmerEffect()){
+        .padding(10.dp)
+        .shimmerEffect()){
 
     }
-
 }
+
 
 
 

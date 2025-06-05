@@ -1,7 +1,7 @@
 package com.example.altaquizz.quizusecases
 
 import com.example.altaquizz.Resources.*
-import com.example.altaquizz.common.data.*
+import com.example.altaquizz.data.*
 import com.example.altaquizz.retrofit.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*

@@ -1,4 +1,4 @@
-package com.example.altaquizz.common
+package com.example.altaquizz
 
 import android.app.*
 import dagger.hilt.android.*

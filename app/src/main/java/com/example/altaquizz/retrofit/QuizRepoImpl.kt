@@ -1,6 +1,5 @@
 package com.example.altaquizz.retrofit
-
-import com.example.altaquizz.common.data.*
+import com.example.altaquizz.data.*
 
 class QuizRepoImpl(val quizApi: QuizApi) : QuizRepo {
     override suspend fun getAllQuiz(
