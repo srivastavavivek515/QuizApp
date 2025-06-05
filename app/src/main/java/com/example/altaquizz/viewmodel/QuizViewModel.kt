@@ -71,7 +71,6 @@ class QuizViewModel @Inject constructor(private val getQuizUseCases: GetQuizUseC
                     resources ->
                 when(resources){
                     is Resource.Loading->{
-                        Log.d(">>>>>>>>>>>>> loading","****")
                      quizList.value = StateQuizScreen(isLoading = true)
                     }
                     is Resource.Success->{
