@@ -57,7 +57,9 @@ class QuizViewModel (private val getQuizUseCases: GetQuizUseCases) : ViewModel()
         }
         if(correctAnswer == selectedAnswer){
             val prevScore = _quizList.value.score
-            _quizList.value = _quizList.value.copy(score = prevScore+1)
+            val newScore = prevScore + 1
+            val scorePerc = newScore * 100/_quizList.value.quizStateList.size
+            _quizList.value = _quizList.value.copy(score = scorePerc)
         }
     }
    private fun getQuiz(no:Int,category:Int,difficulty:String,type:String){

@@ -1,5 +1,7 @@
 package com.example.altaquizz.components
 
+import android.R.attr.padding
+import android.R.attr.text
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -10,8 +12,15 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.*
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.DrawStyle
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.*
@@ -141,30 +150,27 @@ fun QuizOption(optionName:String,optionText:String,selected:Boolean,onOptionClic
         .clip(RoundedCornerShape(60.dp))
         .background(
             color = startColor
-        )
-        .padding(10.dp).clickable {
+        ).clickable {
             if (selected) onUnSelectOption() else onOptionClick()
-        }, verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.SpaceBetween){
+        }.padding(10.dp), verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.SpaceBetween){
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if(!selected){
 
-                Text(text = optionName, style = TextStyle(lineHeight = 1.sp),fontWeight = FontWeight.Bold, fontSize = 30.sp, color = Color.White,modifier = Modifier
+                Text(text = optionName, style = TextStyle(lineHeight = 1.sp),fontWeight = FontWeight.Bold, fontSize = 30.sp, color = colorResource(if (selected) R.color.orange_color else R.color.white), modifier = Modifier
                     .size(40.dp)
                     .shadow(
                         10.dp, CircleShape, true,
                         colorResource(id = R.color.black)
                     )
                     .background(
-                        color = colorResource(id = R.color.orange_color),
+                        color = colorResource(id = if(selected) R.color.white else R.color.orange_color),
                         shape = CircleShape
                     )
                     .wrapContentSize())
-            }
 
             Text(text = optionText, color = optionTextColor,fontSize = 10.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 5.dp))
         }
-        if(selected){
+      /*  if(selected){
             Text(text = "X", fontWeight = FontWeight.Bold, fontSize = 30.sp, color = colorResource(
                 id = R.color.orange_color
             ),modifier = Modifier
@@ -180,7 +186,7 @@ fun QuizOption(optionName:String,optionText:String,selected:Boolean,onOptionClic
                     onUnSelectOption()
                 })
 
-        }
+        }*/
     }
 
 }
@@ -205,6 +211,39 @@ fun QuizOptionShimmer(optionNo:String,options:String,selected:Boolean,onOptionCl
         .shimmerEffect()){
 
     }
+}
+
+@Composable
+fun Int.toDp():Dp{
+  return with(LocalDensity.current) { this@toDp.toDp() }
+}
+
+@Preview
+@Composable
+fun showPrev(){
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        drawRing("10")
+    }
+}
+
+
+@Composable
+fun drawRing(percent:String) {
+    val startAngle =-90f
+    val radius = 250
+    val strokeWidth = 20
+    val arcSize = Size((radius*2 - strokeWidth).toFloat() , (radius * 2- strokeWidth).toFloat())
+
+    Box (modifier = Modifier.width(arcSize.width.toInt().toDp()).height(arcSize.height.toInt().toDp()), contentAlignment = Alignment.Center){
+        Canvas(modifier = Modifier.fillMaxSize()){
+            drawArc(size = arcSize,color = Color.White, useCenter = false,  startAngle = 0f, sweepAngle = 360f, style = Stroke(strokeWidth.toFloat(), cap = StrokeCap.Butt))
+            drawArc( size = arcSize,color = Color.Green, useCenter = false, startAngle = startAngle, sweepAngle = 36f, style = Stroke(strokeWidth.toFloat(), cap = StrokeCap.Butt))
+        }
+        Column {
+            Text("${percent}/100", color = Color.Green, fontWeight = FontWeight.Bold)
+        }
+    }
+
 }
 
 

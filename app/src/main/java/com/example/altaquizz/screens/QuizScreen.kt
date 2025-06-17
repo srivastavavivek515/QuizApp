@@ -20,6 +20,7 @@ import com.example.altaquizz.R
 import com.example.altaquizz.components.*
 import com.example.altaquizz.constants.*
 import com.example.altaquizz.event_state.*
+import com.example.altaquizz.navigation.Routes
 import kotlinx.coroutines.*
 
 @Composable
@@ -59,52 +60,52 @@ fun QuizScreen(navHostController: NavHostController, noOfQuiz:Int, category:Stri
                 state.quizStateList.size
             }
              if(isQuizFetched(state = state)){
-
                  HorizontalPager(state = pagerState, modifier = Modifier.weight(0.7f)) {index->
                      QuestionScreen(index+1,state.quizStateList[index], onOptionSelected = {
                          selectedIndex-> eventQuizScreen(EventQuizScreen.SetOptionSelected(index,selectedIndex))
                      })
                  }
+                 Spacer(modifier = Modifier.height(50.dp))
 
+                 val buttonText by remember {
+                     derivedStateOf {
+                         when(pagerState.currentPage){
+                             0 ->{
+                                 listOf("","Next")
+                             }
+                             state.quizStateList.size-1->{
+                                 listOf("Previous","Submit")
+                             }
+                             else ->{
+                                 listOf("Previous","Next")
+                             }
+                         }
+                     }
+                 }
+                 val scope = rememberCoroutineScope()
+                 Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.weight(0.2f) ) {
+                     if(buttonText[0].isNotEmpty()){
+                         RoundedCornerButton(modifier = Modifier.weight(0.4f), text = buttonText[0] , textColor = colorResource(id = R.color.black),containerColor = Color.White) {
+                             scope.launch {
+                                 pagerState.animateScrollToPage(pagerState.currentPage-1)
+                             }
+                         }
+                     }
+                     Spacer(modifier = Modifier.width(20.dp))
+                     RoundedCornerButton(modifier = Modifier.weight(0.4f),text = buttonText[1], textColor = Color.White,containerColor = colorResource(id = R.color.iconColor)) {
+                         scope.launch {
+                             if(pagerState.currentPage == state.quizStateList.size-1){
+                                 navHostController.navigate(Routes.ScoreScreen.passScore(state.score))
+                                 //TODO::
+                             }else{
+                                 pagerState.animateScrollToPage(pagerState.currentPage+1)
+
+                             }
+                         }
+                     }
+                 }
              }
-            Spacer(modifier = Modifier.height(50.dp))
 
-            val buttonText by remember {
-                derivedStateOf {
-                    when(pagerState.currentPage){
-                        0 ->{
-                            listOf("","Next")
-                        }
-                        state.quizStateList.size-1->{
-                            listOf("Previous","Submit")
-                        }
-                        else ->{
-                            listOf("Previous","Next")
-                        }
-                    }
-                }
-            }
-            val scope = rememberCoroutineScope()
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.weight(0.2f) ) {
-              if(buttonText[0].isNotEmpty()){
-                    RoundedCornerButton(modifier = Modifier.weight(0.4f), text = buttonText[0] , textColor = colorResource(id = R.color.black),containerColor = Color.White) {
-                        scope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage-1)
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.width(20.dp))
-                RoundedCornerButton(modifier = Modifier.weight(0.4f),text = buttonText[1], textColor = Color.White,containerColor = colorResource(id = R.color.iconColor)) {
-                    scope.launch {
-                        if(pagerState.currentPage == state.quizStateList.size-1){
-                        //TODO::
-                        }else{
-                            pagerState.animateScrollToPage(pagerState.currentPage+1)
-
-                        }
-                    }
-                }
-            }
         }
 
 

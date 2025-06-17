@@ -33,8 +33,6 @@ fun setUpNavGraph() {
             },
 
         ) ) {
-
-
             val no = it.arguments?.getInt(ARG_KEY_NO_OF_QUESTION) ?: 0
             val category = it.arguments?.getString(ARG_KEY_CATEGORY)
             val type = it.arguments?.getString(ARG_KEY_TYPE)
@@ -42,8 +40,16 @@ fun setUpNavGraph() {
             val viewModel: QuizViewModel = component.quizViewModel
             val state by viewModel.quizList.collectAsState()
             QuizScreen(navHostController,noOfQuiz = no, category = category!!, quizDifficulty = difficulty!!,type = type!!, state = state,viewModel::onEvent)
-
         }
+
+        composable(route = Routes.ScoreScreen.route) {
+           //val score =  it.arguments?.getInt(ARG_KEY_SCORE) ?: 0
+            val viewModel: QuizViewModel = component.quizViewModel
+            val state by viewModel.quizList.collectAsState()
+            ScoreScreen(navHostController,state.score)
+        }
+
+
 
     }
 
