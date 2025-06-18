@@ -96,14 +96,15 @@ fun Header() {
                 color = colorResource(id = R.color.headerColor), shape = RoundedCornerShape(
                     bottomStart = 30.dp, bottomEnd = 30.dp
                 )
-            )
+            ),
     ) {
+
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 10.dp),
+                .padding(horizontal = 10.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             Icon(
                 modifier = Modifier

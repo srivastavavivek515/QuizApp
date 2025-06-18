@@ -19,14 +19,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            changeStatusBarColor()
+
             AltaQuizzTheme {
+                val systemUiController = rememberSystemUiController()
+                val isDarkTheme = isSystemInDarkTheme()
+                SideEffect {
+                    systemUiController.setSystemBarsColor(
+                        color = if (isDarkTheme) Color(0xFF393E46) else Color(0xFF03DAC5),
+                        darkIcons = !isDarkTheme
+                    )
+                }
                 // A surface container using the 'background' color from the theme
 
                 Surface(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(WindowInsets.safeDrawing.asPaddingValues()),
+                        .fillMaxSize(),
                 ) {
                     Box(
                         modifier = Modifier
@@ -41,14 +48,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun changeStatusBarColor() {
-    val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setSystemBarsColor(
-            color = Color(0xFF393E46),
-            darkIcons = false
-        )
-    }
-}
 

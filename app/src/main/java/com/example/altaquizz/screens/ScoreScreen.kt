@@ -38,7 +38,7 @@ fun ScoreScreen(navHostController: NavHostController,score:Int){
     }
     Column(modifier = Modifier.fillMaxSize().background(color = colorResource(id = R.color.headerColor)), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(30.dp))
-      Image(contentDescription = "", painter = painterResource(id = R.drawable.victory_cup), modifier = Modifier.width(200.dp).height(200.dp))
+        Image(contentDescription = "", painter = painterResource(id = R.drawable.victory_cup), modifier = Modifier.width(200.dp).height(200.dp))
         Spacer(modifier = Modifier.height(30.dp))
         Text("Congratulations!!", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Color.Green)
         Spacer(modifier = Modifier.height(20.dp))
