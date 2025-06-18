@@ -1,7 +1,5 @@
 package com.example.altaquizz.components
 
-import android.R.attr.padding
-import android.R.attr.text
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -14,13 +12,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.*
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.DrawStyle
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.drawscope.*
+import androidx.compose.ui.platform.*
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.*
@@ -30,10 +25,13 @@ import com.example.altaquizz.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdvancedDropdownMenu(headerText: String, menuItems: List<String>,text: String,onDropDownChange:(String)->Unit) {
+fun AdvancedDropdownMenu(
+    headerText: String,
+    menuItems: List<String>,
+    text: String,
+    onDropDownChange: (String) -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
-    // val allOptions = listOf("Kotlin", "Java", "Python", "C++", "Swift", "Go", "Rust")
-   // var selectedOption by remember { mutableStateOf(menuItems[0]) }
     Column {
         Spacer(modifier = Modifier.height(20.dp))
         Text(headerText, fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -100,17 +98,22 @@ fun AdvancedDropdownMenu(headerText: String, menuItems: List<String>,text: Strin
 }
 
 
-
-
-
 @Composable
-fun RoundedCornerButton(modifier: Modifier,text:String,textColor:Color,containerColor: Color,onClick:()->Unit) {
-    Spacer(modifier = Modifier
-        .height(20.dp)
-        .background(Color.Red))
+fun RoundedCornerButton(
+    modifier: Modifier,
+    text: String,
+    textColor: Color,
+    containerColor: Color,
+    onClick: () -> Unit
+) {
+    Spacer(
+        modifier = Modifier
+            .height(20.dp)
+            .background(Color.Red)
+    )
     Button(
         onClick = {
-                  onClick()
+            onClick()
         },
         shape = RoundedCornerShape(40.dp), // Set corner radius
         modifier = modifier
@@ -128,119 +131,161 @@ fun RoundedCornerButton(modifier: Modifier,text:String,textColor:Color,container
 
 fun Modifier.shimmerEffect() = composed {
     val transition = rememberInfiniteTransition(label = " ")
-    val alpha = transition.animateFloat(initialValue = 0.2f, targetValue = 0.9f, animationSpec = infiniteRepeatable(animation = tween(durationMillis = 1000), repeatMode = RepeatMode.Reverse), label = "").value
-        background(colorResource(id = R.color.gray_color).copy(alpha))
-    
+    val alpha = transition.animateFloat(
+        initialValue = 0.2f,
+        targetValue = 0.9f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = ""
+    ).value
+    background(colorResource(id = R.color.gray_color).copy(alpha))
+
+}
+
+@Composable
+fun NoDataScreen() {
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        Image(painter = painterResource(R.drawable.empty_box), contentDescription = "", modifier = Modifier.size(200.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(text = "No Data Found", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+    }
 }
 
 
 @Composable
-fun QuizOption(optionName:String,optionText:String,selected:Boolean,onOptionClick:()->Unit,onUnSelectOption:()->Unit) {
-    val optionTextColor = if(selected) Color.White else Color.Black
-    val transition = updateTransition(selected,"selected")
-    val startColor by transition.animateColor(transitionSpec = { tween(durationMillis = 10, easing = LinearEasing) },
-        label = "",) {
-        if(it) colorResource(id = R.color.orange_color) else Color.White
+fun QuizOption(
+    optionName: String,
+    optionText: String,
+    selected: Boolean,
+    onOptionClick: () -> Unit,
+    onUnSelectOption: () -> Unit
+) {
+    val optionTextColor = if (selected) Color.White else Color.Black
+    val transition = updateTransition(selected, "selected")
+    val startColor by transition.animateColor(
+        transitionSpec = { tween(durationMillis = 10, easing = LinearEasing) },
+        label = "",
+    ) {
+        if (it) colorResource(id = R.color.orange_color) else Color.White
     }
 
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 10.dp)
-        .height(60.dp)
-        .clip(RoundedCornerShape(60.dp))
-        .background(
-            color = startColor
-        ).clickable {
-            if (selected) onUnSelectOption() else onOptionClick()
-        }.padding(10.dp), verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.SpaceBetween){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp)
+            .height(60.dp)
+            .clip(RoundedCornerShape(60.dp))
+            .background(
+                color = startColor
+            )
+            .clickable {
+                if (selected) onUnSelectOption() else onOptionClick()
+            }
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
 
-                Text(text = optionName, style = TextStyle(lineHeight = 1.sp),fontWeight = FontWeight.Bold, fontSize = 30.sp, color = colorResource(if (selected) R.color.orange_color else R.color.white), modifier = Modifier
+            Text(
+                text = optionName,
+                style = TextStyle(lineHeight = 1.sp),
+                fontWeight = FontWeight.Bold,
+                fontSize = 30.sp,
+                color = colorResource(if (selected) R.color.orange_color else R.color.white),
+                modifier = Modifier
                     .size(40.dp)
                     .shadow(
                         10.dp, CircleShape, true,
                         colorResource(id = R.color.black)
                     )
                     .background(
-                        color = colorResource(id = if(selected) R.color.white else R.color.orange_color),
+                        color = colorResource(id = if (selected) R.color.white else R.color.orange_color),
                         shape = CircleShape
                     )
-                    .wrapContentSize())
+                    .wrapContentSize()
+            )
 
-            Text(text = optionText, color = optionTextColor,fontSize = 10.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 5.dp))
+            Text(
+                text = optionText,
+                color = optionTextColor,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 5.dp)
+            )
         }
-      /*  if(selected){
-            Text(text = "X", fontWeight = FontWeight.Bold, fontSize = 30.sp, color = colorResource(
-                id = R.color.orange_color
-            ),modifier = Modifier
-                .size(40.dp)
-                .shadow(
-                    10.dp, CircleShape, true,
-                    colorResource(id = R.color.black)
-                )
-                .background(color = colorResource(id = R.color.white), shape = CircleShape)
-
-                .wrapContentSize()
-                .clickable {
-                    onUnSelectOption()
-                })
-
-        }*/
     }
-
 }
 
 
 @Composable
-fun QuizOptionShimmer(optionNo:String,options:String,selected:Boolean,onOptionClick:()->Unit,onUnSelectOption:()->Unit) {
-    val optionTextColor = if(selected) Color.White else Color.Black
-    val transition = updateTransition(selected,"selected")
-    val startColor by transition.animateColor(transitionSpec = { tween(durationMillis = 10, easing = LinearEasing) },
-        label = "",) {
-        if(it) colorResource(id = R.color.orange_color) else Color.White
-    }
-
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 10.dp)
-        .height(60.dp)
-
-        .clip(RoundedCornerShape(60.dp))
-        .padding(10.dp)
-        .shimmerEffect()){
+fun QuizOptionShimmer() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp)
+            .height(60.dp)
+            .clip(RoundedCornerShape(60.dp))
+            .padding(10.dp)
+            .shimmerEffect()
+    ) {
 
     }
 }
 
 @Composable
-fun Int.toDp():Dp{
-  return with(LocalDensity.current) { this@toDp.toDp() }
+fun Int.toDp(): Dp {
+    return with(LocalDensity.current) { this@toDp.toDp() }
 }
 
 @Preview
 @Composable
-fun showPrev(){
-    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-        drawRing("10")
+private fun ShowPrev() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DrawRing("10")
     }
 }
 
 
 @Composable
-fun drawRing(percent:String) {
-    val startAngle =-90f
+fun DrawRing(percent: String) {
+    val startAngle = -90f
     val radius = 250
     val strokeWidth = 20
-    val arcSize = Size((radius*2 - strokeWidth).toFloat() , (radius * 2- strokeWidth).toFloat())
+    val arcSize = Size((radius * 2 - strokeWidth).toFloat(), (radius * 2 - strokeWidth).toFloat())
 
-    Box (modifier = Modifier.width(arcSize.width.toInt().toDp()).height(arcSize.height.toInt().toDp()), contentAlignment = Alignment.Center){
-        Canvas(modifier = Modifier.fillMaxSize()){
-            drawArc(size = arcSize,color = Color.White, useCenter = false,  startAngle = 0f, sweepAngle = 360f, style = Stroke(strokeWidth.toFloat(), cap = StrokeCap.Butt))
-            drawArc( size = arcSize,color = Color.Green, useCenter = false, startAngle = startAngle, sweepAngle = 36f, style = Stroke(strokeWidth.toFloat(), cap = StrokeCap.Butt))
+    Box(
+        modifier = Modifier
+            .width(arcSize.width.toInt().toDp())
+            .height(arcSize.height.toInt().toDp()), contentAlignment = Alignment.Center
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawArc(
+                size = arcSize,
+                color = Color.White,
+                useCenter = false,
+                startAngle = 0f,
+                sweepAngle = 360f,
+                style = Stroke(strokeWidth.toFloat(), cap = StrokeCap.Butt)
+            )
+            drawArc(
+                size = arcSize,
+                color = Color.Green,
+                useCenter = false,
+                startAngle = startAngle,
+                sweepAngle = (percent.toInt() * 360 / 100).toFloat(),
+                style = Stroke(strokeWidth.toFloat(), cap = StrokeCap.Butt)
+            )
         }
         Column {
-            Text("${percent}/100", color = Color.Green, fontWeight = FontWeight.Bold)
+            Text("$percent %", color = Color.Green, fontWeight = FontWeight.Bold)
         }
     }
 

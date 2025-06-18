@@ -19,18 +19,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            changeStatusBarColor()
             AltaQuizzTheme {
                 // A surface container using the 'background' color from the theme
+
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    changeStatusBarColor()
-                    Box(modifier = Modifier
+                    modifier = Modifier
                         .fillMaxSize()
-                        .background(color = colorResource(id = R.color.black))
+                        .padding(WindowInsets.safeDrawing.asPaddingValues()),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = colorResource(id = R.color.black))
                     ) {
-                       setUpNavGraph()
+                        SetUpNavGraph()
                     }
                 }
             }
@@ -43,10 +46,9 @@ fun changeStatusBarColor() {
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setSystemBarsColor(
-            color = Color(0xFF393E46)
+            color = Color(0xFF393E46),
+            darkIcons = false
         )
     }
-
-
 }
 

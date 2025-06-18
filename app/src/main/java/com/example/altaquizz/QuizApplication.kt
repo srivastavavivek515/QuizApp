@@ -10,6 +10,5 @@ class QuizApplication : Application() {
         startKoin {
             modules(quizModule)
         }
-
     }
 }
